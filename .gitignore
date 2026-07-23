@@ -1,0 +1,30 @@
+# dependencies
+/node_modules
+
+# next.js
+/.next/
+/.next-dev/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+
+# env files (but keep the documented template)
+.env*
+!.env.example
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# generated static assets (copied from pdfjs-dist on install)
+/public/pdf.worker.min.mjs
+/public/standard_fonts/
+/public/cmaps/
