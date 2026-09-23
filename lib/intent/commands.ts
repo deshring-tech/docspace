@@ -122,7 +122,7 @@ function buildRegistry(): Command[] {
 const REGISTRY = buildRegistry();
 
 /** Extracts a KB target from text: "below 200kb", "2 mb", "to 50 KB". */
-function extractKbTarget(query: string): number | null {
+export function extractKbTarget(query: string): number | null {
   const match = query.match(/(\d+(?:\.\d+)?)\s*(kb|mb)/i);
   if (!match) return null;
   const value = parseFloat(match[1]);

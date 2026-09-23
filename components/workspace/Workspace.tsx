@@ -23,6 +23,7 @@ import { SignaturePanel } from "./panels/SignaturePanel";
 import { SplitPanel } from "./panels/SplitPanel";
 import { StampPanel } from "./panels/StampPanel";
 import { getPageCount, hasTextLayer } from "@/lib/pdf/pdfjs";
+import { detectFileKind } from "@/lib/files";
 import { formatBytes } from "@/lib/format";
 import { track } from "@/lib/analytics/analytics";
 import { ANALYTICS_EVENTS } from "@/lib/analytics/events";
@@ -35,15 +36,6 @@ interface WorkspaceProps {
   initialAction?: ActionId;
   initialPresetId?: string;
   initialMaxKb?: number;
-}
-
-function detectKind(file: File): FileKind {
-  const name = file.name.toLowerCase();
-  if (file.type === "application/pdf" || name.endsWith(".pdf")) return "pdf";
-  if (file.type.startsWith("image/")) return "image";
-  if (file.type.startsWith("text/") || name.endsWith(".txt") || name.endsWith(".md"))
-    return "text";
-  return "other";
 }
 
 const KIND_ICONS: Record<FileKind, string> = {
@@ -124,7 +116,7 @@ export function Workspace({ initialAction, initialPresetId, initialMaxKb }: Work
   const addFiles = useCallback(
     (incoming: File[]) => {
       const entries: WorkspaceFile[] = incoming.map((file) => {
-        const kind = detectKind(file);
+        const kind = detectFileKind(file);
         return {
           id: `f${nextId++}`,
           file,
@@ -246,6 +238,17 @@ export function Workspace({ initialAction, initialPresetId, initialMaxKb }: Work
         {paletteTrigger}
 
         <DropZone hero onFiles={addFiles} />
+
+        <Link
+          href="/chat"
+          className="flex items-center gap-3 rounded-2xl border border-accent/40 bg-accent-soft/40 p-4 hover:border-accent transition-colors"
+        >
+          <span className="text-xl">💬</span>
+          <span className="text-sm">
+            <span className="font-medium text-bright">Prefer to just ask? Try Chat</span>
+            <span className="text-muted"> — “make it UPSC photo size”, “compress to 200 KB”. Runs locally.</span>
+          </span>
+        </Link>
 
         <div className="grid sm:grid-cols-2 gap-4">
           <Link

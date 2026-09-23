@@ -10,7 +10,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/Button";
 import { ResultCard } from "@/components/ui/ResultCard";
 import { Spinner } from "@/components/ui/Spinner";
-import { canvasToBlob } from "@/lib/image/canvas";
+import { reencodeImage } from "@/lib/image/reencode";
 import { imagesToPdf } from "@/lib/pdf/imagesToPdf";
 import { pdfToImages } from "@/lib/pdf/pdfToImages";
 import { zipBlobs } from "@/lib/zip";
@@ -27,22 +27,6 @@ const FORMATS: { id: TargetFormat; label: string }[] = [
 ];
 
 const COMING_SOON = ["Word (DOCX)", "Excel", "PowerPoint"];
-
-/** Re-encodes an image file to another raster format via canvas. */
-async function reencodeImage(file: File, mime: string): Promise<Blob> {
-  const bitmap = await createImageBitmap(file);
-  const canvas = document.createElement("canvas");
-  canvas.width = bitmap.width;
-  canvas.height = bitmap.height;
-  const ctx = canvas.getContext("2d")!;
-  if (mime === "image/jpeg") {
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-  }
-  ctx.drawImage(bitmap, 0, 0);
-  bitmap.close();
-  return canvasToBlob(canvas, mime, 0.92);
-}
 
 export function ConvertPanel({ files }: { files: WorkspaceFile[] }) {
   const [target, setTarget] = useState<TargetFormat>("pdf");

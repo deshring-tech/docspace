@@ -88,6 +88,9 @@ export default function RootLayout({
               <Link href="/" className="hover:text-bright transition-colors">
                 Workspace
               </Link>
+              <Link href="/chat" className="hover:text-bright transition-colors">
+                Chat
+              </Link>
               <Link href="/write" className="hover:text-bright transition-colors">
                 Write
               </Link>
@@ -117,6 +120,9 @@ export default function RootLayout({
             <div className="flex flex-wrap gap-x-5 gap-y-1 items-center border-t border-edge pt-3">
               <Link href="/" className="hover:text-bright transition-colors">
                 Workspace
+              </Link>
+              <Link href="/chat" className="hover:text-bright transition-colors">
+                Chat
               </Link>
               <Link href="/write" className="hover:text-bright transition-colors">
                 Write

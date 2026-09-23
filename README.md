@@ -16,6 +16,7 @@ limits.
 | Writing pad (WYSIWYG) | `/write` | Tiptap rich-text editor: headings, bold/italic/underline, lists, undo/redo, image + one-click **signature insertion**; exports to **PDF, DOCX, Markdown, HTML, TXT** with formatting and images preserved; drafts autosave to localStorage |
 | **Passport / ID photo maker** | Workspace → Passport photo | Interactive crop (drag to pan, zoom) with official head-position guides, optional plain-background whitening, exported at exact pixel size **and** exact KB. Specs are read from the shared exam-preset registry, so dimensions live in one place. Warns when output falls under a portal's minimum |
 | **Signature extractor** | Workspace → Extract signature | Photo of pen-on-paper signature → clean cutout: Otsu auto-threshold (+ sensitivity slider), ink recolor (black/blue/original), auto-crop, transparent PNG or white-bg JPG |
+| **Chat interface** | `/chat` | Attach a file, say what you want in plain words ("make it UPSC photo size", "compress to 200 KB", "extract the text") — parsed and executed **locally**, result returned inline. No AI service, no upload, no per-message cost. Genuine NL/AI tasks ("summarise this") return "not yet" — the future paid layer |
 | **Command palette (goal-first)** | `Ctrl+K` anywhere in the workspace | Type the goal ("compress below 200kb", "ssc photo", "merge") — a fully local intent parser (no AI, no network) ranks and runs the right tool, preconfigured |
 | Smart suggestions | Workspace, automatic | Local heuristics, not AI: big PDF → compress, 2+ PDFs → merge, passport-ratio image → exam presets, wide image → signature extraction, 2+ images → one PDF. Dismissable chips |
 | Watermark & page numbers | Workspace → Watermark / numbers | Diagonal text watermark (adjustable opacity) and 1/N page numbers via pdf-lib — pages stay vector, text stays selectable |
@@ -104,6 +105,8 @@ lib/
   image/extractSignature.ts Signature cutout engine (Otsu threshold + crop)
   ocr/ocr.ts               OCR engine (lazy tesseract.js): text + searchable PDF
   ocr/languages.ts         Curated OCR language list
+  chat/intent.ts           Chat parser: free text → executable ChatIntent
+  chat/runCommand.ts       Chat executor: runs an intent on the shared engines
   intent/commands.ts       Local goal→tool parser powering the Ctrl+K palette
   suggest/suggestions.ts   Heuristic "smart suggestion" rules
   pdf/stamp.ts             Watermark + page-number stamping
